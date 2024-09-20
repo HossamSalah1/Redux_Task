@@ -10,7 +10,7 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Footer from "./components/Footer/Footer";
 import Values from "./Pages/AboutUs/Values/Values";
 import Vision from "./Pages/AboutUs/Vision/Vision";
-import ProductDetails from "./Pages/Products/ProductDetails";
+import ProductDetails, { loader as productDetailesLoader } from "./Pages/Products/ProductDetails";
 import Login from "./Pages/Login/Login";
 import LoginLib from "./Pages/Login/LoginLib";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -35,21 +35,23 @@ import store from "./store/store";
 const routes = createBrowserRouter([
   {
     path: "/", element: <AppLayout></AppLayout>, children: [
-      { index:true, element: <Home /> },
-      { path: "about", element: <AboutUs />,children:[
-        {index:true, element: <Values></Values>},
-        {path:"vision", element: <Vision></Vision>},
-      ] },
+      { index: true, element: <Home /> },
+      {
+        path: "about", element: <AboutUs />, children: [
+          { index: true, element: <Values></Values> },
+          { path: "vision", element: <Vision></Vision> },
+        ]
+      },
       { path: "contact", element: <ContactUs /> },
       { path: "products", element: <Products /> },
-      {path:"productDetails/:id" ,element:<ProductDetails/>}
+      { path: "productDetails/:id", element: <ProductDetails />,loader:productDetailesLoader,errorElement:<><h1>ERROR ^__^</h1></> }
     ],
   },
-  { path: "*", element: <NotFound /> },,
+  { path: "*", element: <NotFound /> }, ,
 ]);
 
 function App() {
-  
+
   //v 6.4
   return <Provider store={store}> <RouterProvider router={routes} /></Provider>
 
