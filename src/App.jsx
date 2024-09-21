@@ -16,6 +16,9 @@ import LoginLib from "./Pages/Login/LoginLib";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { ColorProvider } from "./contexts/colorContext";
+import { useState } from "react";
+import { NameProvider } from "./contexts/changNameContext";
 
 // const routes =createBrowserRouter([
 //   {
@@ -44,16 +47,26 @@ const routes = createBrowserRouter([
       },
       { path: "contact", element: <ContactUs /> },
       { path: "products", element: <Products /> },
-      { path: "productDetails/:id", element: <ProductDetails />,loader:productDetailesLoader,errorElement:<><h1>ERROR ^__^</h1></> }
+      { path: "productDetails/:id", element: <ProductDetails />, loader: productDetailesLoader, errorElement: <><h1>ERROR ^__^</h1></> }
     ],
   },
   { path: "*", element: <NotFound /> }, ,
 ]);
 
 function App() {
+  const [color, setColor] = useState('red')
+  const [cname, setName] = useState('Hossam')
+
 
   //v 6.4
-  return <Provider store={store}> <RouterProvider router={routes} /></Provider>
+  return (<ColorProvider value={{ color, setColor }}>
+    <NameProvider value={{cname, setName}}>
+      <Provider store={store}>
+        <RouterProvider router={routes} />
+      </Provider>
+    </NameProvider>
+  </ColorProvider>
+  );
 
 }
 {
